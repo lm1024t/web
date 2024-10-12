@@ -1,0 +1,66 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>ERNIE Speed</title>  
+    <style>  
+        /* 样式代码，略 */  
+        body {  
+            font-family: Arial, sans-serif;  
+            margin: 40px;  
+            display: flex;  
+            flex-direction: column;  
+            align-items: center;  
+        }  
+  
+        input[type="text"], button {  
+            padding: 10px;  
+            margin: 10px;  
+            font-size: 16px;  
+        }  
+  
+        #result {  
+            margin-top: 20px;  
+            padding: 20px;  
+            border: 1px solid #ccc;  
+            border-radius: 5px;  
+            min-height: 100px;  
+            width: 300px;  
+            text-align: center;  
+        }  
+    </style>  
+</head>  
+<body>  
+    <input type="text" id="userInput" placeholder="请输入内容">  
+    <button onclick="submitInput()">提交</button>  
+    <div id="result">这里将显示结果</div>  
+  
+    <script>  
+        function submitInput() {  
+        var inputValue = document.getElementById('userInput').value;  
+        var resultDiv = document.getElementById('result');  
+  
+        // 假设我们已经有了 access_token（实际场景中应从后端获取）  
+        var access_token = '24.05a4b9db8b6ec62b98fa9ee06be98e98.2592000.1729587283.282335-104230630'; // 替换为您从后端获取的实际 access_token  
+  
+        fetch('https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/ernie-speed-128k?access_token=' + access_token, {  
+            method: 'POST',  
+            headers: {  
+                'Content-Type': 'application/json'  
+            },  
+            body: JSON.stringify({  
+                "messages": [  
+                    {"role": "user", "content": inputValue}  
+                ]  
+            })  
+        })  
+        .then(response => response.json())  
+        .then(data => {  
+            resultDiv.innerHTML = '响应: ' + JSON.stringify(data.result);  
+        })  
+        .catch(error => console.error('Error:', error));  
+    }  
+    </script>  
+</body>  
+</html>
